@@ -344,23 +344,21 @@ void parse_desktop_info(void)
             if (deskcur && (monid < 10))
                 layout[monid] = deskmode;
 
-            len += snprintf(desktops + len, sizeof(desktops) - len, "\\s%u" "%s%s" DESKTOP_PRE "%s%s" WINDOW_PRE "%u" WINDOW_SUF DESKTOP_SUF "\\sr",
+            len += snprintf(desktops + len, sizeof(desktops) - len, "\\s%u" "%s%s%s" DESKTOP_PRE "%s" DESKTOP_SUF "\\sr",
                     monid,
+                    nwins ? DESKTOP_WIN : "",
                     deskcur && moncur ? DESKTOP_CUR : deskcur ? DESKTOP_UNF : "",
                     deskurg ? DESKTOP_URG : "",
-                    names[deskid],
-                    nwins ? "" : WINDOW_ZER,
-                    nwins);
+                    names[deskid]);
 #else
             if (moncur && deskcur)
                 layout = deskmode;
 
-            len += snprintf(desktops + len, sizeof(desktops) - len, "%s%s" DESKTOP_PRE "%s%s" WINDOW_PRE "%u" WINDOW_SUF DESKTOP_SUF,
+            len += snprintf(desktops + len, sizeof(desktops) - len, "%s%s%s" DESKTOP_PRE "%s" DESKTOP_SUF,
+                    nwins ? DESKTOP_WIN : "",
                     deskcur && moncur ? DESKTOP_CUR : deskcur ? DESKTOP_UNF : "",
                     deskurg ? DESKTOP_URG : "",
-                    names[deskid],
-                    nwins ? "" : WINDOW_ZER,
-                    nwins);
+                    names[deskid]);
 #endif
 
 #else
@@ -370,12 +368,11 @@ void parse_desktop_info(void)
             if (deskcur)
                 layout = deskmode;
 
-            len += snprintf(desktops + len, sizeof(desktops) - len, "%s%s" DESKTOP_PRE "%s%s" WINDOW_PRE "%u" WINDOW_SUF DESKTOP_SUF,
-                    deskcur ? DESKTOP_CUR : deskcur ? DESKTOP_UNF : "",
+            len += snprintf(desktops + len, sizeof(desktops) - len, "%s%s%s" DESKTOP_PRE "%s" DESKTOP_SUF,
+                    nwins   ? DESKTOP_WIN : "",
+                    deskcur ? DESKTOP_CUR : "",
                     deskurg ? DESKTOP_URG : "",
-                    names[deskid],
-                    nwins ? "" : WINDOW_ZER,
-                    nwins);
+                    names[deskid]);
 #endif
         } else {
             return;
