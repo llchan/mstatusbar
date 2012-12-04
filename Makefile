@@ -11,12 +11,13 @@ INCS = -I. -I/usr/include
 LIBS = -L/usr/lib -lc ${ALSALIB}
 
 XINERAMA ?= 0
+MULTIBAR ?= 0
 MPD		 ?= 0
 DDBF	 ?= 0
 BATT	 ?= 0
 
 CFLAGS   = -std=c99 ${INCS}
-CFLAGS  += -DXINERAMA=${XINERAMA} -DMPD=${MPD} -DDDBF=${DDBF} -DBATT=${BATT}
+CFLAGS  += -DXINERAMA=${XINERAMA} -DMPD=${MPD} -DDDBF=${DDBF} -DBATT=${BATT} -DMULTIBAR=${MULTIBAR}
 LDFLAGS  = ${LIBS}
 
 ifneq "$(MPD)" "0"
