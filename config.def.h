@@ -49,13 +49,16 @@ static const char *modes[] = {
 #define MWM_PRE         ""
 #define MWM_SUF         ""
 
-#define DESKTOP_CUR     "\\u2\\b2"
-#define DESKTOP_UNF     "\\u4\\b4"
+#define DESKTOP_CUR     "\\u2\\b2\\f4"
+#define DESKTOP_WIN     "\\u2\\b2"
+#define DESKTOP_UNF     "\\f7"
 #define DESKTOP_URG     "\\u3"
 
 #define DESKTOP_PRE     " "
-#define DESKTOP_SUF     "\\ur\\br"
+#define DESKTOP_SUF     " \\ur\\br\\fr"
 
+// XXX(lchan): these WINDOW_* flags are deprecated, but we'll leave them here to
+// work around the can-only-commit-one-file-at-a-time bullshit
 #define WINDOW_ZER      "\\f0"
 #define WINDOW_PRE      " "
 #define WINDOW_SUF      " \\fr"
