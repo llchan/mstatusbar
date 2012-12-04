@@ -57,12 +57,6 @@ static const char *modes[] = {
 #define DESKTOP_PRE     " "
 #define DESKTOP_SUF     " \\ur\\br\\fr"
 
-// XXX(lchan): these WINDOW_* flags are deprecated, but we'll leave them here to
-// work around the can-only-commit-one-file-at-a-time bullshit
-#define WINDOW_ZER      "\\f0"
-#define WINDOW_PRE      " "
-#define WINDOW_SUF      " \\fr"
-
 #define LAYOUT_PRE      " \\u2\\b2 "
 #define LAYOUT_SUF      " \\ur\\br"
 
