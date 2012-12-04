@@ -318,7 +318,12 @@ void parse_desktop_info(void)
 {
     char line[BUFSIZ/3];
     int len = 0;
+#if XINERAMA && MULTIBAR
+    int layout[10] = {-1, -1, -1, -1, -1, -1, -1, -1, -1 -1};
+#else
     unsigned layout = 0;
+#endif
+
 
     if ((len = read(STDIN_FILENO, line, sizeof(line))) < 0)
         return;
@@ -335,6 +340,18 @@ void parse_desktop_info(void)
         if (sscanf(token, "%u:%u:%u:%u:%u:%u:%u", &monid, &moncur,
                     &deskid, &nwins, &deskmode, &deskcur, &deskurg) == 7) {
 
+#if MULTIBAR
+            if (deskcur && (monid < 10))
+                layout[monid] = deskmode;
+
+            len += snprintf(desktops + len, sizeof(desktops) - len, "\\s%u" "%s%s" DESKTOP_PRE "%s%s" WINDOW_PRE "%u" WINDOW_SUF DESKTOP_SUF "\\sr",
+                    monid,
+                    deskcur && moncur ? DESKTOP_CUR : deskcur ? DESKTOP_UNF : "",
+                    deskurg ? DESKTOP_URG : "",
+                    names[deskid],
+                    nwins ? "" : WINDOW_ZER,
+                    nwins);
+#else
             if (moncur && deskcur)
                 layout = deskmode;
 
@@ -344,6 +361,8 @@ void parse_desktop_info(void)
                     names[deskid],
                     nwins ? "" : WINDOW_ZER,
                     nwins);
+#endif
+
 #else
         if (sscanf(token, "%u:%u:%u:%u:%u",
                     &deskid, &nwins, &deskmode, &deskcur, &deskurg) == 5) {
@@ -363,7 +382,15 @@ void parse_desktop_info(void)
         }
     }
 
+#if XINERAMA && MULTIBAR
+    for (int i = 0; i < 10; ++i) {
+        if (layout[i] >= 0) {
+            len += snprintf(desktops + len, sizeof(desktops) - len, "\\s%u" LAYOUT_PRE "%s" LAYOUT_SUF "\\sr", i, modes[layout[i]]);
+        }
+    }
+#else
     snprintf(desktops + len, sizeof(desktops) - len, LAYOUT_PRE "%s" LAYOUT_SUF, modes[layout]);
+#endif
 }
 
 int main(void)
